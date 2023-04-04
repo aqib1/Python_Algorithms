@@ -16,3 +16,7 @@ if __name__ == '__main__':
     weeksWithNewIndex = pd.concat([week1, week2], ignore_index=True).sort_index()
     print(weeksWithNewIndex)
 
+    print('==================================')
+    weeksWithMultiIndex = pd.concat([week1, week2], keys=['Week 1', 'Week 2'])
+    print(weeksWithMultiIndex)
+
