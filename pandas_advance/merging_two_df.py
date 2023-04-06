@@ -20,3 +20,14 @@ if __name__ == '__main__':
     weeksWithMultiIndex = pd.concat([week1, week2], keys=['Week 1', 'Week 2'])
     print(weeksWithMultiIndex)
 
+
+    df1 = pd.DataFrame([1, 2, 3, 4], columns=['A'])
+    df2 = pd.DataFrame([5, 6, 7, 8], columns=['B'])
+    con = pd.concat([df1, df2])
+    print(con)
+
+    con = pd.concat([df1, df2], axis='columns')
+    print(con)
+
+
+
