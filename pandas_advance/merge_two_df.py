@@ -11,3 +11,14 @@ if __name__ == '__main__':
 
     merged = week1.merge(foods, how='left', on='Food ID')
     print(merged)
+
+    print("===========================")
+    ## In case of different columns
+    print(customers.head())
+    customerMerged = week1.merge(
+        customers,
+        how='left',
+        left_on='Customer ID',
+        right_on='ID'
+    ).drop('ID', axis='columns') ## as ID and Customer ID both are repeated
+    print(customerMerged.head())
