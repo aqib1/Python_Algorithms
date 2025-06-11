@@ -22,17 +22,31 @@ class PlayTennisProbability:
                 probability_column
             )
 
-    def answer_query(self, query: dict, given: dict) -> float:
+    def query(self, query: dict, given: dict):
         """
-            Supports:
-            - query={'PlayTennis': 'Yes'}, given={condition_name: value, ...}
-            - query={condition_name: '?'}, given={'PlayTennis': 'Yes'}
+        Generic query method for:
+
+        1) P(PlayTennis = Yes/No | conditions)
+        2) Given PlayTennis = Yes/No, find most likely condition value
+        3) Probability distribution over PlayTennis given conditions
+        4) Given PlayTennis = Yes/No, find most likely values of conditions
+
+        Parameters:
+        - query: dict, e.g. {'PlayTennis': 'Yes'} or {'Wind': '?'}
+        - given: dict of conditions, e.g. {'Outlook': 'Sunny'}
+
+        Returns:
+        - float (probability) or dict (distribution or most likely values)
         """
-        answer: float = 0.0
-        if 'PlayTennis' in query:
+        if 'PlayTennis' in query and query['PlayTennis'] in ['Yes', 'No']:
             ## Apply naive bayes classification
             answer = self.naive_bayes_classification(query, given)
-        return round(answer,4)
+            return round(answer, 4)
+        if 'PlayTennis' in given:
+            return self.most_likely_value_from_conditions(query, given)
+        if 'PlayTennis' in query and query['PlayTennis'] == '?':
+            return self.normalisation_naive_bayes_classification(given)
+        raise Exception("Invalid Format of query")
 
     def read_tennis_data_frame(self) -> DataFrame:
         df = pd.read_csv('tennis_data.txt', sep=',', names=list(self.DATA_COLUMNS))
@@ -77,12 +91,60 @@ class PlayTennisProbability:
                 answer *= prob_row.iloc[0][f"P({condition_name}|Play)"]
         return answer
 
+    def most_likely_value_from_conditions(self, query, given):
+        pt_value = given['PlayTennis']
+        most_likely_value_from_conditions = {}
+        conditions = (query.items()) if query else type(self).DATA_COLUMNS[1:-1]
+        for condition, _ in conditions:
+            cpt = type(self).conditional_prob_tables[condition]
+            filtered: DataFrame = cpt[cpt['PlayTennis'] == pt_value]
+            if filtered.empty:
+                most_likely_value_from_conditions[condition] = None
+            else:
+                max_row = filtered.loc[filtered[f'P({condition}|Play)'].idxmax()]
+                most_likely_value_from_conditions[condition] = max_row[condition]
+        return most_likely_value_from_conditions
+
+    def normalisation_naive_bayes_classification(self, given):
+        pt_yes = self.naive_bayes_classification({'PlayTennis': 'Yes'}, given)
+        pt_no = self.naive_bayes_classification({'PlayTennis': 'No'}, given)
+        pt_total = pt_yes + pt_no
+        return {
+            'Yes': round(pt_yes / pt_total, 5),
+            'No': round(pt_no / pt_total, 5)
+        }
+
+
 if __name__ == '__main__':
     play = PlayTennisProbability()
     play.prepare_data()
+    ## 1. PlayTennis = Yes with a sunny outlook, strong wind, cool temperature, and high humidity.
     print(
-        play.answer_query(
+        play.query(
             {'PlayTennis': 'Yes'},
             {'Outlook': 'Sunny', 'Wind': 'Strong', 'Temperature': 'Cool', 'Humidity': 'High'}
+        )
+    )
+    ## 2. Given the wind is strong, is it more likely that PlayTennis is yes or no?
+    print(
+        play.query(
+            {'PlayTennis': '?'},
+            {'Wind': 'Strong'}
+        )
+    )
+
+    # 4. With Outlook=Overcast, Wind=Weak, Temperature=Mild, Humidity=Normal, probability distribution over PlayTennis
+    print(
+        play.query(
+            {'PlayTennis': '?'},
+            {'Outlook': 'Overcast', 'Wind': 'Weak', 'Temperature': 'Mild', 'Humidity': 'Normal'}
+        )
+    )
+
+    ## 5. If PlayTennis is no, what are the most likely values for outlook, wind, humidity and temperature?
+    print(
+        play.query(
+            {'Outlook': '?', 'Wind': '?', 'Humidity': '?', 'Temperature': '?'},
+            {'PlayTennis': 'No'}
         )
     )
