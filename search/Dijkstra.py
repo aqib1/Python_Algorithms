@@ -28,7 +28,8 @@ if __name__ == '__main__':
         'B': [('A', 4), ('C', 1), ('D', 5)],
         'C': [('A', 2), ('B', 1), ('D', 8), ('E', 10)],
         'D': [('B', 5), ('C', 8), ('E', 2)],
-        'E': [('C', 10), ('D', 2)]
+        'E': [('C', 10), ('D', 2)],
+        'L': [('Z', 100)]
     }
     dijkstra = Dijkstra()
     print(dijkstra.shortest_path(adjacency_list, 'A'))
