@@ -1,5 +1,10 @@
 import heapq
 class AStar:
+    def immutableStr(self):
+        name = "Aqib Javed"
+        name.upper()
+        print(name)
+
     def shortest_distance(self, graph, heuristic, start, goal):
         # Store the best cost to reach each node
         visited = {}
@@ -54,4 +59,5 @@ if __name__ == '__main__':
         'Bucharest': 0
     }
     aStar = AStar()
-    print(aStar.shortest_distance(graph, heuristic, 'Arad', 'Bucharest'))
+    # print(aStar.shortest_distance(graph, heuristic, 'Arad', 'Bucharest'))
+    print(aStar.immutableStr())
