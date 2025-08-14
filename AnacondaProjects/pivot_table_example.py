@@ -14,3 +14,19 @@ if __name__ == '__main__':
     )
     revenueCountPivotTable.columns = ['Revenue Count']
     print(revenueCountPivotTable)
+
+    revenueColumnMap = {
+        'min': 'Revenue Min',
+        'max': 'Revenue Max',
+        'sum': 'Revenue Sum',
+        'median': 'Revenue Median'
+    }
+    revenueAggPivotTable = revenue.pivot_table(
+        values='Revenue',
+        index='Salesman',
+        aggfunc={'Revenue' : ['min', 'max', 'sum', 'median']}
+    )
+    revenueAggPivotTable.columns = [
+        revenueColumnMap[col] for col in revenueAggPivotTable.columns
+    ]
+    print(revenueAggPivotTable)
