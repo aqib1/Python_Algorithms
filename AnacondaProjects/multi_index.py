@@ -4,9 +4,18 @@ if __name__ == '__main__':
     print(df.head())
 
     print("==============")
-    df = df.set_index('Rank')
+    print(df.info())
+    df['Sector'] = df['Sector'].astype('category')
     print(df.info())
 
     print("==============")
-    df['Sector'] = df['Sector'].astype('category')
-    print(df.info())
+    rankIndex = df.set_index('Rank')
+    print(rankIndex)
+
+    print("==============")
+    ## Sector 21
+    ## Industry 73
+    print(df.nunique())
+    multiIndex = df.set_index(keys=['Sector', 'Industry']).sort_index()
+    print(multiIndex)
+    print(multiIndex.index.names)
