@@ -19,3 +19,8 @@ if __name__ == '__main__':
     multiIndex = df.set_index(keys=['Sector', 'Industry']).sort_index()
     print(multiIndex)
     print(multiIndex.index.names)
+
+    ## print(multiIndex.index.get_level_values('Sector'))
+    ## print(multiIndex.index.get_level_values(0))
+    ## print(multiIndex.index.get_level_values('Industry'))
+    print(multiIndex.index.get_level_values(1))
