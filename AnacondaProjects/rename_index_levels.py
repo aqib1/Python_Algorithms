@@ -23,3 +23,10 @@ if __name__ == '__main__':
     quarters.index.set_names(names="Sale Date", level=0, inplace=True)
     quarters.index.set_names(names="Name", level=1, inplace=True)
     print(quarters.head())
+
+    ## with one line
+    quarters.index.set_names(names=["Date", "Salesman"], inplace=True)
+    print(quarters.head())
+
+    ## sorting
+    print(quarters.sort_index(ascending=[True, False]))
