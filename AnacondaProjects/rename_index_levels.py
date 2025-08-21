@@ -30,3 +30,6 @@ if __name__ == '__main__':
 
     ## sorting
     print(quarters.sort_index(ascending=[True, False]))
+
+    print(quarters)
+    print(quarters.loc[('1/2/2025', 'Cindy') : ('1/2/2025', 'Rob')])
