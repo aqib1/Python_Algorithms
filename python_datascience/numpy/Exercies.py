@@ -40,3 +40,25 @@ if __name__ == '__main__':
     print(solution.create_array(1, 101).reshape(10, 10) / 100)
     print(solution.generate_lin_space(0, 1, 20))
 
+    print("*"*80)
+    print("*" * 80)
+    print("*" * 80)
+    mat = solution.create_array(1, 26).reshape(5,5)
+    print(mat)
+
+    print("*" * 80)
+    sub_arr = mat[2:,1:].copy()
+    print(sub_arr)
+    print(sub_arr[1,3])
+
+    print("*" * 80)
+    sub_arr1 = mat[0:3, 1:2].copy()
+    print(sub_arr1)
+
+    print("*" * 80)
+    sub_arr2 = mat[4:5, 0:].copy()
+    print(sub_arr2)
+
+    print("*" * 80)
+    sub_arr3 = mat[3:, 0:].copy()
+    print(sub_arr3)
