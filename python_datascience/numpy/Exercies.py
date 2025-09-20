@@ -62,3 +62,12 @@ if __name__ == '__main__':
     print("*" * 80)
     sub_arr3 = mat[3:, 0:].copy()
     print(sub_arr3)
+
+    print("*" * 80)
+    print("Sum of map : ", np.sum(mat))
+
+    print("*" * 80)
+    print("Standard Deviation : ", np.std(mat))
+
+    print("*" * 80)
+    print("Sum of all columns : ", np.sum(mat, axis=0))
