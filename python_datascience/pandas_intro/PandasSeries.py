@@ -33,3 +33,6 @@ if __name__ == '__main__':
 
     ## China and Germany will have NaN
     print(s1 + s2)
+
+    ## Clean way to avoid NaN
+    print(s1.add(s2, fill_value=0))
