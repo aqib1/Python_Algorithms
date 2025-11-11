@@ -14,3 +14,7 @@ if __name__ == '__main__':
         power_list.append(val**2)
 
     print("Power list : ", power_list)
+
+    ## List Comprehension
+    comprehension_list = [num**2 for num in x]
+    print(comprehension_list)
